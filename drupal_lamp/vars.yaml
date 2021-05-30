@@ -1,0 +1,7 @@
+---
+drupal_core_version: "8.9.x"
+drupal_core_path: "/var/www/drupal-{{ drupal_core_version }}-dev"
+drupal_site_name: "Drupal Test"
+domain: "drupal"
+composer_path: "/usr/local/bin/composer"
+drupal_composer_cli_option: "--prefer-dist --no-interaction"
