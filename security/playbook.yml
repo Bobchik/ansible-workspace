@@ -1,0 +1,28 @@
+---
+- hosts: all
+  tasks:
+    - name: Update SSH configuration to be more secure
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+        state: present
+      with_items:
+        - regexp: "^PasswordAuthentication"
+          line: "PasswordAuthentication no"
+        - regexp: "^PermitRootLogin"
+          line: "PermitRootLogin no"
+        - regexp: "^Port"
+          line: "Port 2849"
+      notify: restart ssh
+
+    - name: Add sudo rights for deployment user.
+      lineinfile:
+        dest: "/etc/sudoers"
+        regexp: "^username"
+        line: 'johndoe ALL=(ALL) NOPASSWD: ALL'
+        state: present
+
+  handlers:
+    - name: restart ssh
+      service: name=sshd state=restarted
